@@ -1,4 +1,5 @@
 ## History
+
 * 2020/10/28 
 	* Changed one number candidate behavior: Entering a candidate should always stay as candidate, even if it is the only candidate of a cell. In Sudoku it happens often, that there is only one candidate in a cell (more may be added later).
 
