@@ -733,6 +733,42 @@ class Puzzle {
             case "special":
                 this[this.mode.qa][this.mode[this.mode.qa][this.mode[this.mode.qa].edit_mode][0]] = [];
                 break;
+            case "combi":
+                switch (this.mode[this.mode.qa][this.mode[this.mode.qa].edit_mode][0]) {
+                    case "tents":
+                        break;
+                    case "linex":
+                        break;
+                    case "edgexoi":
+                        break;
+                    case "blpo":
+                        break;
+                    case "blwh":
+                        break;
+                    case "battleship":
+                        break;
+                    case "star":
+                        break;
+                    case "magnets":
+                        break;
+                    case "lineox":
+                        break;
+                    case "yajilin":
+                        break;
+                    case "hashi":
+                        break;
+                    case "arrowS":
+                        break;
+                    case "shaka":
+                        break;
+                    case "numfl":
+                        break;
+                    case "alfl":
+                        break;
+                    case "edgesub":
+                        break;
+                }
+                break;
         }
         this.redraw();
     }
@@ -6056,8 +6092,14 @@ class Puzzle {
             var text = JSON.stringify(this.make_solution());
             if (text === this.solution && this.sol_flag === 0) {
                 setTimeout(() => {
-                    alert("Correct Answer")
-                }, 10)
+                    Swal.fire({
+                        title: 'Swaroop says:',
+                        html: '<h2 style="color:blue;">Congratulations 🙂 Well done 🙂</h2>',
+                        icon: 'success',
+                        confirmButtonText: 'Hurray!',
+                        // timer: 5000
+                    })
+                }, 20)
                 sw_timer.stop();
                 this.mouse_mode = "out";
                 this.mouseevent(0, 0, 0);
@@ -6074,12 +6116,13 @@ class Puzzle {
         let scolor = 9; //blue, 2 for green
 
         // Data checking
-        if (iostring.length < 81) {
-            document.getElementById("iostring").value = "Error: Less than 81 digits";
-        } else if (iostring.length > 81) {
-            document.getElementById("iostring").value = "Error: Greater than 81 digits";
-        } else {
+        if ((iostring.length == 81) || (iostring.length == 64) || (iostring.length == 36)) {
+
+            // Replace dots with zeros
+            iostring = iostring.replace(/\./g, 0);
+
             let digits = iostring.split("");
+            let size = Math.sqrt(iostring.length);
 
             // check all are digits
             for (var i = 0; i < digits.length; i++) {
@@ -6093,34 +6136,37 @@ class Puzzle {
             let r_start = parseInt(document.getElementById("nb_space1").value, 10); // over white space
             let c_start = parseInt(document.getElementById("nb_space3").value, 10); // left white space
             if (this.mode.qa === "pu_q") {
-                for (var j = r_start; j < (9 + r_start); j++) { //  row
-                    for (var i = c_start; i < (9 + c_start); i++) { // column
-                        if (parseInt(digits[j - r_start + i - c_start + (j - r_start) * 8], 10) !== 0) {
+                for (var j = r_start; j < (size + r_start); j++) { //  row
+                    for (var i = c_start; i < (size + c_start); i++) { // column
+                        if (parseInt(digits[j - r_start + i - c_start + (j - r_start) * (size - 1)], 10) !== 0) {
                             this.record("number", (i + 2) + ((j + 2) * this.nx0));
-                            this[this.mode.qa].number[(i + 2) + ((j + 2) * this.nx0)] = [digits[j - r_start + i - c_start + (j - r_start) * 8], pcolor, "1"];
+                            this[this.mode.qa].number[(i + 2) + ((j + 2) * this.nx0)] = [digits[j - r_start + i - c_start + (j - r_start) * (size - 1)], pcolor, "1"];
                         }
                     }
                 }
             } else if (this.mode.qa === "pu_a") {
-                for (var j = r_start; j < (9 + r_start); j++) { //  row
-                    for (var i = c_start; i < (9 + c_start); i++) { // column
-                        if (parseInt(digits[j - r_start + i - c_start + (j - r_start) * 8], 10) !== 0) {
+                for (var j = r_start; j < (size + r_start); j++) { //  row
+                    for (var i = c_start; i < (size + c_start); i++) { // column
+                        if (parseInt(digits[j - r_start + i - c_start + (j - r_start) * (size - 1)], 10) !== 0) {
                             this.record("number", (i + 2) + ((j + 2) * this.nx0));
                             this[this.mode.qa].number[(i + 2) + ((j + 2) * this.nx0)] = [digits[j - r_start + i - c_start + (j - r_start) * (this.nx - 1)], scolor, "1"];
                         }
                     }
                 }
             }
+        } else {
+            document.getElementById("iostring").value = "Error: Number of digits not equal to 36 (6x6 grid) or 64 (8x8 grid) or 81 (9x9 grid)";
+            return "failed";
         }
         this.redraw();
     }
 
-    export_clues() {
+    export_clues(size) {
         let outputstring = "";
         let r_start = parseInt(document.getElementById("nb_space1").value, 10); // over white space
         let c_start = parseInt(document.getElementById("nb_space3").value, 10); // left white space
-        for (var j = r_start; j < (9 + r_start); j++) { //  row
-            for (var i = c_start; i < (9 + c_start); i++) { // column
+        for (var j = r_start; j < (size + r_start); j++) { //  row
+            for (var i = c_start; i < (size + c_start); i++) { // column
                 if (this["pu_q"].number[(i + 2) + ((j + 2) * this.nx0)] &&
                     (this["pu_q"].number[(i + 2) + ((j + 2) * this.nx0)][2] !== "2") &&
                     (this["pu_q"].number[(i + 2) + ((j + 2) * this.nx0)][2] !== "4")) {
@@ -6147,7 +6193,7 @@ class Puzzle {
                     if (this["pu_a"].number[(i + 2) + ((j + 2) * this.nx0)][2] === "7") {
                         var sum = 0,
                             a;
-                        for (var k = 0; k < 10; k++) {
+                        for (var k = 0; k < (size + 1); k++) {
                             if (this["pu_a"].number[(i + 2) + ((j + 2) * this.nx0)][0][k] === 1) {
                                 sum += 1;
                                 a = k + 1;
@@ -6168,7 +6214,7 @@ class Puzzle {
         }
 
         // Sanity check
-        if (outputstring.length === 81) {
+        if ((outputstring.length === 81) || (outputstring.length === 64) || (outputstring.length === 36)) {
             document.getElementById("iostring").value = outputstring;
         } else {
             document.getElementById("iostring").value = "Error: Some cells have more than 1 digit";
