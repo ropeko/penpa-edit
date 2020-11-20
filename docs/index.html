@@ -28,7 +28,7 @@
         <h3 id="title">Setter mode</h3>
         <div id="top_button">
             <input type="button" id="newboard" value="New grid / frame" class="button" />
-            <input type="button" id="rotation" value="Rotate / Move" class="button" />
+            <input type="button" id="rotation" value="Transform" class="button" />
             <input type="button" id="newsize" value="Resize" class="button" style="display:none;" />
             <input type="button" id="saveimage" value="Screenshot" class="button" />
             <input type="button" id="savetext" value="Share" class="button" />
@@ -276,6 +276,7 @@
                                 <li><span id="ms_star">&#10022; &#9734; &#9733; </span></li>
                                 <li><span id="ms_compass">Compass</span></li>
                                 <li><span id="ms_sudokuetc">Sudoku</span></li>
+                                <li><span id="ms_sudokumore">ArrowSums</span></li>
                                 <li><span id="ms_polyomino">Polyomino</span></li>
                             </ul>
                         </li>
@@ -536,7 +537,7 @@
         <p>Insructions to use the tool <a href="https://github.com/swaroopg92/penpa-edit/blob/master/README.md" target="_blank">here</a>.</p>
         <p>Some FAQs <a href="https://docs.google.com/document/d/12Mde0ogcpdtgM2nz6Z_nZYJnMJyUOMC5f3FUxzH9q74/edit" target="_blank">here</a>.
             Changelogs <a href="https://github.com/swaroopg92/penpa-edit/blob/master/CHANGELOG.md" target="_blank">here</a>.</p>
-        <p>Penpa+ Version 2.24.11, <a href="https://github.com/swaroopg92/penpa-edit/blob/master/CREDITS.md" target="_blank">Credits</a></p>
+        <p>Penpa+ Version 2.24.13, <a href="https://github.com/swaroopg92/penpa-edit/blob/master/CREDITS.md" target="_blank">Credits</a></p>
     </div>
     <div id="float-key">
         <div class="drag-and-drop" id="float-key-header">
@@ -628,6 +629,13 @@
                 <input type="checkbox" name="nb_sudoku2" id="nb_sudoku2">
                 <span id="div_all"><label class="label_nb" id="nb_sudoku3_lb">Sandwich</label></span>
                 <input type="checkbox" name="nb_sudoku3" id="nb_sudoku3">
+                <br>
+                <span id="div_all"><label class="label_nb" id="nb_sudoku5_lb">Size 6x6</label></span>
+                <input type="checkbox" name="nb_sudoku5" id="nb_sudoku5">
+                <span id="div_all"><label class="label_nb" id="nb_sudoku6_lb">Size 8x8</label></span>
+                <input type="checkbox" name="nb_sudoku6" id="nb_sudoku6">
+                <br>
+                <span id="div_all"><label class="label_nb" id="nb_sudoku7_lb"></label></span>
             </span>
             <br>
             <h4 id="div_all"><label class="label_nb" id="nb_space_lb">White space:</label></h4>
@@ -696,6 +704,19 @@
                 <input type="button" id="closeBtn_size1" value="Apply changes" />
                 <input type="button" id="closeBtn_size2" value="Cancel" />
             </div>
+            <br>
+            <div class="nb_button">
+                <h4 id="div_all"><label id="rt4_lb_r">Add/Remove Rows/Columns:</label></h4>
+                <p><label id="rt5_lb_r">*Works only in Square Board Type, it also resets undo/redo. Answer checking if enabled, will only work with original grid size.</label></p>
+                <input type="button" id="rt_addtop_r" value="Top +" />
+                <input type="button" id="rt_subtop_r" value="Top -" /><br>
+                <input type="button" id="rt_addbottom_r" value="Bottom +" />
+                <input type="button" id="rt_subbottom_r" value="Bottom -" /><br>
+                <input type="button" id="rt_addleft_r" value="Left +" />
+                <input type="button" id="rt_subleft_r" value="Left -" /><br>
+                <input type="button" id="rt_addright_r" value="Right +" />
+                <input type="button" id="rt_subright_r" value="Right -" />
+            </div>
         </div>
     </div>
     <div id="modal-image" class="modal">
@@ -735,7 +756,7 @@
     <div id="modal-rotate" class="modal">
         <div id="modal-rotate-content">
             <div id="modal-header">
-                <h3 id="savetexttitle">Rotate / Move</h3>
+                <h3 id="savetexttitle">Rotate / Move / Add / Remove</h3>
             </div>
             <div class="nb_button">
                 <h4 id="div_all"><label id="rt1_lb">Rotate:</label></h4>
@@ -754,6 +775,19 @@
                 <input type="button" id="rt_center" value="Move board to centre" /><br>
                 <input type="button" id="rt_size" value="Fit window to board" /><br>
                 <input type="button" id="rt_reset" value="Reset" />
+            </div>
+            <br>
+            <div class="nb_button">
+                <h4 id="div_all"><label id="rt4_lb">Add/Remove Rows/Columns:</label></h4>
+                <p><label id="rt5_lb">*Works only in Square Board Type, it also resets undo/redo</label></p>
+                <input type="button" id="rt_addtop" value="Top +" />
+                <input type="button" id="rt_subtop" value="Top -" /><br>
+                <input type="button" id="rt_addbottom" value="Bottom +" />
+                <input type="button" id="rt_subbottom" value="Bottom -" /><br>
+                <input type="button" id="rt_addleft" value="Left +" />
+                <input type="button" id="rt_subleft" value="Left -" /><br>
+                <input type="button" id="rt_addright" value="Right +" />
+                <input type="button" id="rt_subright" value="Right -" />
             </div>
             <br>
             <div class="nb_button">
