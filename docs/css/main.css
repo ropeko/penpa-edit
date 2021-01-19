@@ -6,6 +6,7 @@
     --blueDark: #1e50a2;
     --blueLight: #187bcd;
     --blueLightVery: #c0e0ff;
+    --bluesky: #3085d6;
     --brownLight: #eecab1;
     --green: #208020;
     --greenLight: #4c9900;
@@ -105,6 +106,12 @@ hr.newgridhrline {
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 5px;
+}
+
+#duplicate,
+#input_sudoku,
+#input_url {
+    margin-top: 5px;
 }
 
 .mode_button {
@@ -257,45 +264,69 @@ hr.newgridhrline {
     color: var(--red);
 }
 
-#st_number1_lb {
+#st_number1_lb,
+#st_sudoku1_lb {
     /* Black */
     background-color: var(--black);
     color: var(--white);
 }
 
-#st_number2_lb {
+#st_number2_lb,
+#st_sudoku2_lb {
     /* Green */
     background-color: var(--greenLight);
     color: var(--white);
 }
 
-#st_number8_lb {
+#st_number8_lb,
+#st_sudoku8_lb {
     /* Light Blue */
     background-color: var(--blueLight);
     color: var(--white);
 }
 
-#st_number3_lb {
+#st_number3_lb,
+#st_sudoku3_lb {
     /* Grey */
     background-color: var(--grey);
     color: var(--white);
 }
 
-#st_number9_lb {
+#st_number9_lb,
+#st_sudoku9_lb {
     /* Blue */
     background-color: var(--blue);
     color: var(--white);
 }
 
-#st_number10_lb {
+#st_number10_lb,
+#st_sudoku10_lb {
     /* Red */
     background-color: var(--red);
     color: var(--white);
 }
 
+#sub_number3_lb {
+    background: url(images/corners.png);
+    background-repeat: no-repeat;
+    background-size: 90% 90%;
+    background-position: center;
+    vertical-align: top;
+    width: 20px;
+}
+
+#sub_number9_lb {
+    background: url(images/sides.png);
+    background-repeat: no-repeat;
+    background-size: 90% 90%;
+    background-position: center;
+    vertical-align: top;
+    width: 20px;
+}
+
 #st_number6_lb {
     /* White Circle */
-    background: url(white_circle.png);
+    background: url(images/white_circle.png);
     background-repeat: no-repeat;
     background-size: 90% 90%;
     background-position: center;
@@ -305,7 +336,7 @@ hr.newgridhrline {
 
 #st_number0_lb {
     /* Outlined */
-    background: url(outlined.png);
+    background: url(images/outlined.png);
     background-repeat: no-repeat;
     background-size: 90% 90%;
     background-position: center;
@@ -315,7 +346,7 @@ hr.newgridhrline {
 
 #st_number7_lb {
     /* Black Circle */
-    background: url(black_circle.png);
+    background: url(images/black_circle.png);
     background-repeat: no-repeat;
     background-size: 90% 90%;
     background-position: center;
@@ -325,7 +356,7 @@ hr.newgridhrline {
 
 #st_number11_lb {
     /* Red Circle */
-    background: url(red_circle.png);
+    background: url(images/red_circle.png);
     background-repeat: no-repeat;
     background-size: 90% 90%;
     background-position: center;
@@ -652,6 +683,17 @@ body textarea {
     font-size: 12px;
 }
 
+#puzzleinfo {
+    background: var(--white);
+    width: 400px;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--blue);
+}
+
 #dvique {
     background: var(--white);
     border: 1px solid var(--blackLight);
@@ -876,27 +918,52 @@ body textarea {
 #modal-rotate-content {
     background-color: var(--white);
     width: 300px;
-    height: 390px;
+    height: 400px;
     margin: 0 auto;
     margin-top: 30px;
     border-radius: 20px;
 }
 
-#modal-save-body {
+#modal-save-body,
+#modal-save-info {
     padding-left: 10px;
     padding-top: 10px;
+}
+
+#saveinfoauthor,
+#saveinfotitle,
+#saveinfosource,
+#saveinforules {
+    margin: 2px auto;
+    width: 90%;
+}
+
+#sourcewarning {
+    color: var(--red);
+}
+
+#answerwarning {
+    color: var(--red);
+    text-align: center;
+}
+
+#save_undo_lb,
+#save_undo {
+    margin-left: 10px;
+    margin-top: 5px;
 }
 
 #modal-save-content {
     background-color: var(--white);
     width: 300px;
-    height: 270px;
+    height: 545px;
     margin: 0 auto;
     margin-top: 30px;
     border-radius: 20px;
 }
 
-#modal-input {
+#modal-input,
+#modal-load {
     display: none;
     position: fixed;
     z-index: 2;
@@ -908,13 +975,27 @@ body textarea {
     background-color: var(--transparent70);
 }
 
-#modal-input-content {
+#modal-input-content,
+#modal-load-content {
     background-color: var(--white);
     width: 300px;
-    height: 270px;
+    height: 280px;
     margin: 0 auto;
     margin-top: 30px;
     border-radius: 20px;
+}
+
+#modal-input-parameters-text,
+#modal-input-parameters {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+#ignore_pencilmarks_lb,
+#ignore_pencilmarks {
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 textarea {
@@ -924,11 +1005,8 @@ textarea {
     max-height: 130px;
 }
 
-#savetextarea_pp {
-    min-width: 200px;
-    min-height: 40px;
-    max-width: 280px;
-    max-height: 60px;
+#save5texttitle {
+    margin-left: 10px;
 }
 
 #inputtext {
@@ -957,8 +1035,8 @@ textarea {
 
 #modal-save2-content {
     background-color: var(--white);
-    width: 300px;
-    height: 320px;
+    width: 330px;
+    height: 450px;
     margin: 0 auto;
     margin-top: 160px;
     border-radius: 20px;
@@ -978,13 +1056,33 @@ textarea {
     border-radius: 20px 20px 0px 0px;
 }
 
+#save2texttitle {
+    width: 330px;
+    height: 30px;
+    text-align: center;
+    background: var(--greyLight);
+    padding-top: 0px;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.solcheck {
+    vertical-align: middle;
+}
+
 h4 {
     display: inline;
 }
 
-#solutiontext {
+#savetextarea_pp {
+    min-width: 200px;
+    min-height: 40px;
+    max-width: 280px;
+    max-height: 60px;
+    margin-left: 10px;
+}
+
+.solutiontext {
     font-size: 12px;
-    text-align: left;
 }
 
 input[type=number] {
@@ -1126,4 +1224,17 @@ input[type=number] {
 #tutorials {
     color: var(--blue);
     background-color: var(--blueLightVery);
+}
+
+/* Swal fire - Warnings and Wish */
+.wish {
+    color: var(--white);
+}
+
+.warn {
+    color: var(--red);
+}
+
+.info {
+    color: var(--blue);
 }

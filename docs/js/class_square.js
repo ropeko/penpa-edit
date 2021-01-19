@@ -289,6 +289,9 @@ class Puzzle_square extends Puzzle {
                         break;
                 }
                 break;
+            case "sudoku":
+                type = [0];
+                break;
         }
         return type;
     }
@@ -337,7 +340,7 @@ class Puzzle_square extends Puzzle {
         }
     }
 
-    key_arrow(key_code) {
+    key_arrow(key_code, ctrl_key = false) {
         var a, b, c;
         if (this.theta === 0) { b = [0, 1, 2, 3]; } else if (this.theta === 90) { b = [3, 0, 1, 2]; } else if (this.theta === 180) { b = [2, 3, 0, 1]; } else if (this.theta === 270) { b = [1, 2, 3, 0]; }
         if (this.reflect[0] === -1) {
@@ -364,7 +367,7 @@ class Puzzle_square extends Puzzle {
                 c = b[3];
                 break;
         }
-        if (this.mode[this.mode.qa].edit_mode === "number" || this.mode[this.mode.qa].edit_mode === "symbol") {
+        if (this.mode[this.mode.qa].edit_mode === "number" || this.mode[this.mode.qa].edit_mode === "symbol" || this.mode[this.mode.qa].edit_mode === "sudoku") {
             if (this.mode[this.mode.qa].edit_mode === "number" && this.mode[this.mode.qa][this.mode[this.mode.qa].edit_mode][0] === "3") {
                 switch (c) {
                     case 0:
@@ -402,6 +405,60 @@ class Puzzle_square extends Puzzle {
                         a = this.cursolS % 4 === 3 ? this.cursolS + 4 * (this.nx0) : this.cursolS - this.cursolS % 4 + 3;
                         if (this.point[a].use === 1) { this.cursolS = a; }
                         break;
+                }
+            } else if (this.mode[this.mode.qa].edit_mode === "sudoku") {
+                if (this.selection.length >= 1) {
+                    var current_cursor = this.cursol;
+                    switch (c) {
+                        case 0:
+                            a = current_cursor - 1;
+                            if (this.point[a].use === 1) {
+                                if (!ctrl_key) {
+                                    this.selection = [];
+                                }
+                                if (!this.selection.includes(a)) {
+                                    this.selection.push(a);
+                                }
+                                this.cursol = a;
+                            }
+                            break;
+                        case 1:
+                            a = current_cursor - this.nx0;
+                            if (this.point[a].use === 1) {
+                                if (!ctrl_key) {
+                                    this.selection = [];
+                                }
+                                if (!this.selection.includes(a)) {
+                                    this.selection.push(a);
+                                }
+                                this.cursol = a;
+                            }
+                            break;
+                        case 2:
+                            a = current_cursor + 1;
+                            if (this.point[a].use === 1) {
+                                if (!ctrl_key) {
+                                    this.selection = [];
+                                }
+                                if (!this.selection.includes(a)) {
+                                    this.selection.push(a);
+                                }
+                                this.cursol = a;
+                            }
+                            break;
+                        case 3:
+                            a = current_cursor + this.nx0;
+                            if (this.point[a].use === 1) {
+                                if (!ctrl_key) {
+                                    this.selection = [];
+                                }
+                                if (!this.selection.includes(a)) {
+                                    this.selection.push(a);
+                                }
+                                this.cursol = a;
+                            }
+                            break;
+                    }
                 }
             } else {
                 switch (c) {
@@ -501,6 +558,7 @@ class Puzzle_square extends Puzzle {
             this.draw_direction("pu_a");
             this.draw_lattice();
             this.draw_frameBold();
+            this.draw_selection();
             this.draw_symbol("pu_q", 2);
             this.draw_symbol("pu_a", 2);
             this.draw_cage("pu_q");
@@ -523,6 +581,7 @@ class Puzzle_square extends Puzzle {
             this.draw_direction("pu_q");
             this.draw_lattice();
             this.draw_frameBold();
+            this.draw_selection();
             this.draw_symbol("pu_q", 2);
             this.draw_cage("pu_q");
             this.draw_number("pu_q");
@@ -1141,7 +1200,8 @@ class Puzzle_square extends Puzzle {
 
     draw_number(pu) {
         /*number*/
-        var p_x, p_y;
+        var p_x, p_y, factor;
+        var str_alph_low = "abcdefghijklmnopqrstuvwxyz";
         for (var i in this[pu].number) {
             if (i.slice(-1) === "E") { // Overwriting in Edge Mode
                 p_x = this.point[i.slice(0, -1)].x;
@@ -1150,11 +1210,17 @@ class Puzzle_square extends Puzzle {
                 p_x = this.point[i].x;
                 p_y = this.point[i].y;
             }
+            // if its lower case
+            if (str_alph_low.indexOf(this[pu].number[i][0]) === -1) {
+                factor = 1;
+            } else {
+                factor = 0;
+            }
             switch (this[pu].number[i][2]) {
                 case "1": //normal
                     this.draw_numbercircle(pu, i, p_x, p_y, 0.42);
                     set_font_style(this.ctx, 0.7 * this.size.toString(10), this[pu].number[i][1]);
-                    this.ctx.text(this[pu].number[i][0], p_x, p_y + 0.06 * this.size, this.size * 0.8);
+                    this.ctx.text(this[pu].number[i][0], p_x, p_y + 0.06 * factor * this.size, this.size * 0.8);
                     break;
                 case "2": //arrow
                     var arrowlength = 0.7;
@@ -1278,17 +1344,17 @@ class Puzzle_square extends Puzzle {
                 case "5": //small
                     this.draw_numbercircle(pu, i, p_x, p_y, 0.17);
                     set_font_style(this.ctx, 0.25 * this.size.toString(10), this[pu].number[i][1]);
-                    this.ctx.text(this[pu].number[i][0], p_x, p_y + 0.02 * this.size, this.size * 0.8);
+                    this.ctx.text(this[pu].number[i][0], p_x, p_y + 0.02 * factor * this.size, this.size * 0.8);
                     break;
                 case "6": //medium
                     this.draw_numbercircle(pu, i, p_x, p_y, 0.25);
                     set_font_style(this.ctx, 0.4 * this.size.toString(10), this[pu].number[i][1]);
-                    this.ctx.text(this[pu].number[i][0], p_x, p_y + 0.03 * this.size, this.size * 0.8);
+                    this.ctx.text(this[pu].number[i][0], p_x, p_y + 0.03 * factor * this.size, this.size * 0.8);
                     break;
                 case "10": //big
                     this.draw_numbercircle(pu, i, p_x, p_y, 0.36);
                     set_font_style(this.ctx, 0.6 * this.size.toString(10), this[pu].number[i][1]);
-                    this.ctx.text(this[pu].number[i][0], p_x, p_y + 0.03 * this.size, this.size * 0.8);
+                    this.ctx.text(this[pu].number[i][0], p_x, p_y + 0.03 * factor * this.size, this.size * 0.8);
                     break;
                 case "7": //sudoku
                     this.draw_numbercircle(pu, i, p_x, p_y, 0.42);
@@ -1334,6 +1400,9 @@ class Puzzle_square extends Puzzle {
                 this.draw_circle(this.ctx, this.point[i].x, this.point[i].y, 0.18);
             } else if (this[pu].numberS[i][1] === 7) {
                 set_circle_style(this.ctx, 2);
+                this.draw_circle(this.ctx, this.point[i].x, this.point[i].y, 0.18);
+            } else if (this[pu].numberS[i][1] === 11) {
+                set_circle_style(this.ctx, 11);
                 this.draw_circle(this.ctx, this.point[i].x, this.point[i].y, 0.18);
             }
             if (true) { //(this[pu].numberS[i][0].length <= 2 ){
@@ -3404,7 +3473,7 @@ class Puzzle_kakuro extends Puzzle_square {
 
         // Col 1 Blacks
         i = 0;
-        for (j = 1; j < cols; j++) { // column
+        for (j = 1; j < rows; j++) { // column
             this[this.mode.qa].symbol[(i + 2) + ((j + 2) * this.nx0)] = [1, "kakuro", 2];
         }
     }

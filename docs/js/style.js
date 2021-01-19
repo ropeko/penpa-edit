@@ -10,6 +10,7 @@ const Color = {
     BLUE_DARK_VERY: "#00008b",
     BLUE_LIGHT: "#187bcd",
     BLUE_LIGHT_VERY: "#c0e0ff",
+    BLUE_SKY: "#3085d6",
     BROWN_LIGHT: "#eecab1",
     GREEN: "#208020",
     GREEN_LIGHT: "#4c9900",
@@ -21,12 +22,14 @@ const Color = {
     GREY_LIGHT: "#cccccc",
     GREY_LIGHT_VERY: "#f0f0f0",
     ORANGE_LIGHT: "#ffcc80",
+    ORANGE_TRANSPARENT: "rgba(255, 103, 0, 0.6)",
     PINK_LIGHT: "#ffb3ff",
     PURPLE_LIGHT: "#cc99ff",
     RED: "#ff0000",
     RED_LIGHT: "#ffa3a3",
-    TRANSPARENTBLACK: "rgba(0,0,0,0)",
-    TRANSPARENTWHITE: "rgba(255,255,255,0)",
+    RED_TRANSPARENT: "rgba(255, 0, 0, 0.7)",
+    TRANSPARENTBLACK: "rgba(0, 0, 0, 0)",
+    TRANSPARENTWHITE: "rgba(255, 255, 255, 0)",
     WHITE: "#ffffff",
     YELLOW: "#ffffa3"
 };
@@ -75,6 +78,9 @@ function set_surface_style(ctx, type) {
             break;
         case 12:
             ctx.fillStyle = Color.BROWN_LIGHT;
+            break;
+        case 13:
+            ctx.fillStyle = Color.ORANGE_TRANSPARENT;
             break;
         case 99:
             ctx.fillStyle = Color.GREY_LIGHT_VERY;
@@ -253,6 +259,10 @@ function set_line_style(ctx, type) {
         case 100: //cursor_panel
             ctx.strokeStyle = Color.RED;
             ctx.lineWidth = 2.5;
+            break;
+        case 101: // Sudoku cursor
+            ctx.strokeStyle = Color.RED_TRANSPARENT;
+            ctx.lineWidth = 2;
             break;
     }
 }
